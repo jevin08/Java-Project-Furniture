@@ -13,14 +13,17 @@ public class ProductPicture
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private boolean isUrl;
 	private String photoName;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private ImgColor color;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Product product;
 	
-	public ProductPicture(String photoName, ImgColor color, Product product) {
+	
+	public ProductPicture(boolean isUrl, String photoName, ImgColor color, Product product) {
 		super();
+		this.isUrl = isUrl;
 		this.photoName = photoName;
 		this.color = color;
 		this.product = product;
@@ -49,9 +52,14 @@ public class ProductPicture
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public boolean isUrl() {
+		return isUrl;
+	}
+	public void setUrl(boolean isUrl) {
+		this.isUrl = isUrl;
+	}
 	@Override
 	public String toString() {
-		return "ProductPicture [id=" + id + ", photoName=" + photoName + ", color=" + color + ", product=" + product
-				+ "]";
+		return "ProductPicture [id=" + id + ", isUrl=" + isUrl + ", photoName=" + photoName + ", color=" + color + "]";
 	}
 }
