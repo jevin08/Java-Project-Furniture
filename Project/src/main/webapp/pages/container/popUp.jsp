@@ -5,6 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>furniture</title>
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 <style>
 	.popup{
 	position: absolute;
@@ -33,16 +34,20 @@
 	  <% if (err != null){ %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
 			<%=err%>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	  <% }else if(info != null){ %>
-		<div class="alert info-info alert-dismissible fade show" role="alert">
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
 			<%=info%>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	  <% }else if(suc != null){ %>
 		<div class="alert alert-success alert-dismissible fade show" role="alert">
 			<%=suc%>
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	  <% } %>
     </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
 </body>
 </html>

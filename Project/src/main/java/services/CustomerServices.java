@@ -36,6 +36,14 @@ public class CustomerServices {
 		}
 		return true;
 	}
+	@SuppressWarnings("unchecked")
+	public static Customer getCustomer(String uname) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		TypedQuery<Customer> query = (TypedQuery<Customer>)  session.createQuery("SELECT id FROM Customer WHERE username='"+uname+"'").list();
+		List<Customer> customers = query.getResultList();
+		session.close();
+		return customers.get(0);
+	}
 	public static Customer getCustomer(Long customerId) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Customer cust = session.get(Customer.class, customerId);

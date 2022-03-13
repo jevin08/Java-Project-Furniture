@@ -25,7 +25,10 @@ public class AppController {
 	public String adminHome() {
 		return "admin/home";
 	}
-	
+	@RequestMapping("admin/product/add")
+	public String addProduct(){
+		return "admin/addProduct";
+	}
 	@RequestMapping("login")
 	public String login(Model model){
 		return "login";
@@ -72,7 +75,7 @@ public class AppController {
 	
 	@PostMapping("validateSignin")
 	public String validateSignin(String uname, String email, String password, @RequestParam("confirm-password") String confirmPass, String fname, String lname, String phone, @RequestParam("sec-phone") String secPhone, String bdate, HttpSession session) {
-		if(password.equals(confirmPass)){
+		if(password.equals(confirmPass) && !password.equals("")){
 			if(AdminServices.isAdmin(uname, password) || CustomerServices.isCustomer(uname, password)) {
 				session.setAttribute("error-message", "Username and password already exists.");
 				return "signin";
@@ -82,8 +85,19 @@ public class AppController {
 			CustomerServices.addCustomer(customer);
 			return "login";
 		}else {
-			session.setAttribute("error-message", "Password not matched.");
+			session.setAttribute("error-message", "Password not matched or empty.");
 			return "signin";
 		}
 	}
+	@RequestMapping("profile")
+	public String profile(HttpSession session) {
+		if("true"==session.getAttribute("loggedIn")) {
+			String uname = (String) session.getAttribute("uname");
+			Customer customer = CustomerServices.getCustomer(uname);
+			return "profile";
+		}
+		session.setAttribute("info-message", "Please Login First!");
+		return "login";
+	}
+	
 }
