@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import entities.Customer;
 import services.AdminServices;
@@ -69,7 +70,7 @@ public class AppController {
 	}
 	
 	@GetMapping("validateSignin")
-	public String validateSignin(Model model) {
+	public String validateSignin() {
 		return "signin";
 	}
 	
@@ -90,14 +91,24 @@ public class AppController {
 		}
 	}
 	@RequestMapping("profile")
-	public String profile(HttpSession session) {
+	public ModelAndView profile(HttpSession session) {
+		ModelAndView m = new ModelAndView();
 		if("true"==session.getAttribute("loggedIn")) {
-			String uname = (String) session.getAttribute("uname");
-			Customer customer = CustomerServices.getCustomer(uname);
-			return "profile";
+			long id = (Long) session.getAttribute("uid");
+			Customer customer = CustomerServices.getCustomer(id);
+			m.addObject("email", customer.getEmail());
+			m.addObject("photo", customer.getPhoto());
+			m.addObject("bdate", customer.getBirthDate());
+			m.addObject("fname", customer.getFirstName());
+			m.addObject("lname", customer.getLastName());
+			m.addObject("phone", customer.getPhone());
+			m.addObject("secPhone", customer.getSecondaryPhone());
+			m.setViewName("profile");
+			return m;
 		}
 		session.setAttribute("info-message", "Please Login First!");
-		return "login";
+		m.setViewName("login");
+		return m;
 	}
 	
 }
